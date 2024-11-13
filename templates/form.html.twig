@@ -1,1 +1,41 @@
-{{ form(form) }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Price Calculator</title>
+    </head>
+    <body>
+        <h1> Calculate Total Price </h1>
+        {{ form(form) }}
+
+        {% if basePrice|default(null) %}
+          <br/><br/>
+          <h1> Calculated Total Price and Fees </h1>
+          <table>
+            <tr>
+              <th>Base Price</th>
+              <th>{{basePrice}}</th>
+            </tr>
+            <tr>
+              <th>Buyer Fee</th>
+              <th>{{buyerFee}}</th>
+            </tr>
+            <tr>
+              <th>Seller Fee</th>
+              <th>{{sellerFee}}</th>
+            </tr>
+            <tr>
+              <th>Association Fee</th>
+              <th>{{associationFee}}</th>
+            </tr>
+            <tr>
+              <th>Storage Fee</th>
+              <th>{{storageFee}}</th>
+            </tr>
+            <tr>
+              <th>Total Price</th>
+              <th>{{totalPrice}}</th>
+            </tr>
+          </table>
+        {% endif %}
+    </body>
+</html>

@@ -31,22 +31,22 @@ class CalculatorService {
   const MAX_STORAGE_FEE = 100;
 
   public function calculateTotalCarPrice(int $basePrice, CarType $type): array {
-    $basicBuyerFee = 0;
+    $buyerFee = 0;
     $sellerFee = 0;
     $associationFee = 0;
     $totalPrice = 0;
     $storageFee = self::MAX_STORAGE_FEE;
 
     if ($type == CarType::Common) {
-      $basicBuyerFee = $basePrice * self::BASIC_FEE_PERCENT;
-      $basicBuyerFee = min($basicBuyerFee, self::BASIC_FEE_COMMON_MAX);
-      $basicBuyerFee = max($basicBuyerFee, self::BASIC_FEE_COMMON_MIN);
+      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
+      $buyerFee = min($buyerFee, self::BASIC_FEE_COMMON_MAX);
+      $buyerFee = max($buyerFee, self::BASIC_FEE_COMMON_MIN);
 
       $sellerFee = $basePrice * self::SELLER_FEE_COMMON;
     } else {
-      $basicBuyerFee = $basePrice * self::BASIC_FEE_PERCENT;
-      $basicBuyerFee = min($basicBuyerFee, self::BASIC_FEE_LUXURY_MAX);
-      $basicBuyerFee = max($basicBuyerFee, self::BASIC_FEE_LUXURY_MIN);
+      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
+      $buyerFee = min($buyerFee, self::BASIC_FEE_LUXURY_MAX);
+      $buyerFee = max($buyerFee, self::BASIC_FEE_LUXURY_MIN);
 
       $sellerFee = $basePrice * self::SELLER_FEE_LUXURY;
     }
@@ -61,11 +61,11 @@ class CalculatorService {
       $associationFee = self::ASSOCIATION_FEE_TIER_4;
     }
 
-    $totalPrice = $basePrice + $basicBuyerFee + $sellerFee + $associationFee + $storageFee;
+    $totalPrice = $basePrice + $buyerFee + $sellerFee + $associationFee + $storageFee;
 
     return [
       'basePrice' => $basePrice,
-      'basicBuyerFee' => round($basicBuyerFee, 2),
+      'buyerFee' => round($buyerFee, 2),
       'sellerFee' => round($sellerFee, 2),
       'associationFee' => round($associationFee, 2),
       'storageFee' => round($storageFee, 2),

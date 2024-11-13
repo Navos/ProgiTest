@@ -30,16 +30,15 @@ class CalculatorController extends AbstractController {
       ->getForm();
 
 
-    // $form->handleRequest($request);
-    // $logger->info('results', );
+    $form->handleRequest($request);
 
-    // if ($form->isSubmitted() && $form->isValid()) {
-    // $car = $form->getData();
+    if ($form->isSubmitted() && $form->isValid()) {
+      $car = $form->getData();
 
-    // $results = $calculatorService->calculateTotalCarPrice($car->getPrice(), $car->getType());
-    // $logger->info('results', $results);
-    // }
+      $results = $calculatorService->calculateTotalCarPrice($car->getPrice(), $car->getType());
+      $logger->info('results', $results);
+    }
 
-    return $this->render('form.html.twig', ['form' => $form]);
+    return $this->render('form.html.twig', ['form' => $form, ...$results]);
   }
 }

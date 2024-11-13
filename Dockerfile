@@ -1,5 +1,5 @@
 # Dockerfile
-FROM bitnami/php-fpm:8.3.13
+FROM bitnami/php-fpm:8.1
 
 RUN apt-get update -y && apt-get install -y libmcrypt-dev
 
