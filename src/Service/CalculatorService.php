@@ -31,36 +31,11 @@ class CalculatorService {
   const MAX_STORAGE_FEE = 100;
 
   public function calculateTotalCarPrice(int $basePrice, CarType $type): array {
-    $buyerFee = 0;
-    $sellerFee = 0;
-    $associationFee = 0;
     $totalPrice = 0;
-    $storageFee = self::MAX_STORAGE_FEE;
-
-    if ($type == CarType::Common) {
-      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
-      $buyerFee = min($buyerFee, self::BASIC_FEE_COMMON_MAX);
-      $buyerFee = max($buyerFee, self::BASIC_FEE_COMMON_MIN);
-
-      $sellerFee = $basePrice * self::SELLER_FEE_COMMON;
-    } else {
-      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
-      $buyerFee = min($buyerFee, self::BASIC_FEE_LUXURY_MAX);
-      $buyerFee = max($buyerFee, self::BASIC_FEE_LUXURY_MIN);
-
-      $sellerFee = $basePrice * self::SELLER_FEE_LUXURY;
-    }
-
-    if ($basePrice >= self::ASSOCIATION_FEE_TIER_1_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_1_MAX) {
-      $associationFee = self::ASSOCIATION_FEE_TIER_1;
-    } else if ($basePrice > self::ASSOCIATION_FEE_TIER_2_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_2_MAX) {
-      $associationFee = self::ASSOCIATION_FEE_TIER_2;
-    } else if ($basePrice > self::ASSOCIATION_FEE_TIER_3_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_3_MAX) {
-      $associationFee = self::ASSOCIATION_FEE_TIER_3;
-    } else if ($basePrice >= self::ASSOCIATION_FEE_TIER_4_MIN) {
-      $associationFee = self::ASSOCIATION_FEE_TIER_4;
-    }
-
+    $buyerFee = $this->calculateBuyerFee($basePrice, $type);
+    $sellerFee = $this->calculateSellerFee($basePrice, $type);
+    $associationFee = $this->calculateAssociationFee($basePrice, $type);
+    $storageFee = $this->calculateStorageFee($basePrice, $type);
     $totalPrice = $basePrice + $buyerFee + $sellerFee + $associationFee + $storageFee;
 
     return [
@@ -71,5 +46,47 @@ class CalculatorService {
       'storageFee' => round($storageFee, 2),
       'totalPrice' => round($totalPrice, 2)
     ];
+  }
+
+  private function calculateBuyerFee(int $basePrice, CarType $type): float {
+    $buyerFee = 0;
+    if ($type == CarType::Common) {
+      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
+      $buyerFee = min($buyerFee, self::BASIC_FEE_COMMON_MAX);
+      $buyerFee = max($buyerFee, self::BASIC_FEE_COMMON_MIN);
+    } else {
+      $buyerFee = $basePrice * self::BASIC_FEE_PERCENT;
+      $buyerFee = min($buyerFee, self::BASIC_FEE_LUXURY_MAX);
+      $buyerFee = max($buyerFee, self::BASIC_FEE_LUXURY_MIN);
+    }
+    return $buyerFee;
+  }
+
+  private function calculateSellerFee(int $basePrice, CarType $type): float {
+    $sellerFee = 0;
+    if ($type == CarType::Common) {
+      $sellerFee = $basePrice * self::SELLER_FEE_COMMON;
+    } else {
+      $sellerFee = $basePrice * self::SELLER_FEE_LUXURY;
+    }
+    return $sellerFee;
+  }
+
+  private function calculateAssociationFee(int $basePrice): float {
+    $associationFee = 0;
+    if ($basePrice >= self::ASSOCIATION_FEE_TIER_1_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_1_MAX) {
+      $associationFee = self::ASSOCIATION_FEE_TIER_1;
+    } else if ($basePrice > self::ASSOCIATION_FEE_TIER_2_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_2_MAX) {
+      $associationFee = self::ASSOCIATION_FEE_TIER_2;
+    } else if ($basePrice > self::ASSOCIATION_FEE_TIER_3_MIN && $basePrice <= self::ASSOCIATION_FEE_TIER_3_MAX) {
+      $associationFee = self::ASSOCIATION_FEE_TIER_3;
+    } else if ($basePrice >= self::ASSOCIATION_FEE_TIER_4_MIN) {
+      $associationFee = self::ASSOCIATION_FEE_TIER_4;
+    }
+    return $associationFee;
+  }
+
+  private function calculateStorageFee(): float {
+    return self::MAX_STORAGE_FEE;
   }
 }

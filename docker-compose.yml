@@ -1,9 +1,0 @@
-services:
-  web:
-    container_name: web
-    image: 'bitnami/php-fpm:latest'
-    entrypoint: /var/html/entrypoint.sh
-    ports:
-      - '8000:8000'
-    volumes:
-      - ./:/var/html

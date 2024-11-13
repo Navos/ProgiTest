@@ -9,31 +9,31 @@
 
         {% if basePrice|default(null) %}
           <br/><br/>
-          <h1> Calculated Total Price and Fees </h1>
+          <h1> Calculated Total Price and Fees ($)</h1>
           <table>
             <tr>
               <th>Base Price</th>
-              <th>{{basePrice}}</th>
+              <th>{{basePrice|number_format(2, '.', ',')}}</th>
             </tr>
             <tr>
               <th>Buyer Fee</th>
-              <th>{{buyerFee}}</th>
+              <th>{{buyerFee|number_format(2, '.', ',')}}</th>
             </tr>
             <tr>
               <th>Seller Fee</th>
-              <th>{{sellerFee}}</th>
+              <th>{{sellerFee|number_format(2, '.', ',')}}</th>
             </tr>
             <tr>
               <th>Association Fee</th>
-              <th>{{associationFee}}</th>
+              <th>{{associationFee|number_format(2, '.', ',')}}</th>
             </tr>
             <tr>
               <th>Storage Fee</th>
-              <th>{{storageFee}}</th>
+              <th>{{storageFee|number_format(2, '.', ',')}}</th>
             </tr>
             <tr>
               <th>Total Price</th>
-              <th>{{totalPrice}}</th>
+              <th>{{totalPrice|number_format(2, '.', ',')}}</th>
             </tr>
           </table>
         {% endif %}
